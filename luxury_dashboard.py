@@ -1,7 +1,38 @@
+
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+from streamlit_extras.metric_cards import style_metric_cards
+from PIL import Image
+
+# Set page config
+st.set_page_config(
+    page_title="Luxury Retail Dashboard",
+    layout="wide",
+    page_icon="✨",
+    initial_sidebar_state="expanded"
+)
+
+# Custom styling
+st.markdown("""
+    <style>
+    .main, .stApp {
+        background-color: #1a1a1a;
+        color: white;
+        font-family: 'Segoe UI', sans-serif;
+    }
+    .block-container {
+        padding: 2rem 2rem;
+    }
+    h1, h2, h3, h4 {
+        color: #e0e0e0;
+    }
+    .stDataFrame {
+        background-color: #2c2f33;
+    }
+    </style>
+""", unsafe_allow_html=True)
 
 # Dummy Data
 feature_importance = pd.DataFrame({
@@ -20,64 +51,70 @@ association_rules = pd.DataFrame({
     'Confidence': [0.91, 0.89, 0.88, 0.86, 0.85, 0.84, 0.82, 0.80, 0.79, 0.77]
 })
 
-# Sidebar Filters
-st.sidebar.title("🔧 Campaign Inputs")
-channel = st.sidebar.selectbox("Channel", ['Email', 'Social Media', 'SMS'])
-subject_length = st.sidebar.slider("Subject Length (characters)", 10, 100, 50)
-personalized = st.sidebar.checkbox("Include Personalization")
+# Sidebar
+st.sidebar.image("https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Fashion_icon.svg/1024px-Fashion_icon.svg.png", width=150)
+st.sidebar.title("🧰 Campaign Settings")
+channel = st.sidebar.selectbox("🎯 Choose Channel", ['Email', 'Social Media', 'SMS'])
+subject_length = st.sidebar.slider("📝 Subject Length (characters)", 10, 100, 50)
+personalized = st.sidebar.checkbox("💡 Personalization Enabled")
 
-# Main Title
-st.title("💼 Luxury Retail Strategy Dashboard")
-st.markdown("Interactive dashboard showcasing machine learning insights and market targeting strategies for luxury fashion brands.")
+# Title section
+st.markdown("""
+# ✨ Luxury Retail AI Dashboard  
+*Machine Learning-Driven Insights for Campaign Optimization*
+""")
 
-# Tab Layout
+# Tabs
 tabs = st.tabs(["📊 Feature Importance", "🔗 Association Rules", "🧠 Campaign Simulator"])
 
 # Tab 1: Feature Importance
 with tabs[0]:
-    st.subheader("RandomForest Feature Importance")
-    fig1, ax1 = plt.subplots()
-    sns.barplot(data=feature_importance, y='Feature', x='Importance', ax=ax1)
-    ax1.set_title("Importance of Features Influencing Campaign Performance")
+    st.subheader("📌 Feature Importance (RandomForest Model)")
+    fig1, ax1 = plt.subplots(figsize=(10, 4))
+    sns.barplot(data=feature_importance, y='Feature', x='Importance', ax=ax1, palette="coolwarm")
+    ax1.set_title("Key Drivers of Campaign Performance", fontsize=14)
     st.pyplot(fig1)
-    st.markdown("🛈 *subject_length* and *channel_email* are the top predictors.")
+    st.info("📈 Subject length and email channel are key to successful engagement.")
 
 # Tab 2: Association Rules
 with tabs[1]:
-    st.subheader("Top 10 Demographic-Based Association Rules")
+    st.subheader("🔍 Top 10 Demographic-Based Association Rules")
     st.dataframe(association_rules, use_container_width=True)
-    fig2, ax2 = plt.subplots()
-    sns.barplot(data=association_rules, y='Rule', x='Confidence', ax=ax2)
+    fig2, ax2 = plt.subplots(figsize=(10, 5))
+    sns.barplot(data=association_rules, y='Rule', x='Confidence', ax=ax2, palette="magma")
     ax2.set_xlim(0.7, 1.0)
-    ax2.set_title("Confidence Levels for Rule Predictions")
+    ax2.set_title("Confidence Levels for Association Patterns", fontsize=14)
     st.pyplot(fig2)
-    st.markdown("🛈 Higher confidence means more reliable targeting patterns.")
+    st.warning("💡 Use these patterns to fine-tune targeting by region and customer profile.")
 
 # Tab 3: Campaign Simulator
 with tabs[2]:
-    st.subheader("Predict Campaign Effectiveness")
+    st.subheader("🧪 Predict Campaign Effectiveness")
     effectiveness_score = 0.5
     effectiveness_score += 0.1 if channel == 'Email' else -0.05
     effectiveness_score += 0.1 if personalized else 0
     effectiveness_score += 0.01 * (subject_length / 100)
     effectiveness_score = round(min(1.0, effectiveness_score), 2)
 
-    # Color-coded display
     if effectiveness_score >= 0.75:
-        color = "🟢 High"
+        level = "🟢 High"
+        msg = "✨ Excellent! This campaign setup has high predicted effectiveness."
     elif effectiveness_score >= 0.5:
-        color = "🟡 Moderate"
+        level = "🟡 Moderate"
+        msg = "📊 Moderate engagement expected. Consider testing variations."
     else:
-        color = "🔴 Low"
+        level = "🔴 Low"
+        msg = "⚠️ Low predicted performance. Optimize message or channel."
 
-    st.metric("Predicted Effectiveness Score", f"{effectiveness_score*100:.0f}%", color)
-    st.markdown("🛈 This score is a simulation based on model insights.")
-    
-    if effectiveness_score > 0.8:
-        st.success("✨ Excellent! This campaign setup has high predicted effectiveness.")
-    elif effectiveness_score < 0.5:
-        st.warning("⚠️ Consider improving personalization or subject clarity.")
+    col1, col2 = st.columns([1, 2])
+    with col1:
+        st.metric("Predicted Effectiveness", f"{effectiveness_score*100:.0f}%", level)
+    with col2:
+        st.success(msg) if effectiveness_score >= 0.75 else st.warning(msg)
+
+    st.markdown("---")
+    st.markdown("🔁 *Lower scores for SMS and social campaigns suggest these channels need creative content or segmentation redesign. Future research should explore channel synergy without compromising brand exclusivity.*")
 
 # Footer
 st.markdown("---")
-st.caption("Created by Yasaswini Reddy Naga | Master’s Research | Saint Louis University")
+st.caption("🚀 Built by Yasaswini Reddy Naga | Independent Researcher| SLU Alumni")
