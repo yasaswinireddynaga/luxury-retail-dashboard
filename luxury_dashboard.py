@@ -110,9 +110,9 @@ with tabs[2]:
         st.metric("Predicted Effectiveness", f"{effectiveness_score*100:.0f}%", level)
     with col2:
         if effectiveness_score >= 0.75:
-        st.success(msg)
-    else:
-        st.warning(msg)
+            st.success(msg)
+        else:
+            st.warning(msg)
 
     st.markdown("---")
     st.markdown("🔁 *Lower scores for SMS and social campaigns suggest these channels need creative content or segmentation redesign. Future research should explore channel synergy without compromising brand exclusivity.*")
