@@ -102,12 +102,12 @@ with tabs[2]:
 
     colA, colB = st.columns(2)
     with colA:
-        st.metric("Predicted Effectiveness", f"{effectiveness_score*100:.0f}%")
+        st.metric("Predicted Effectiveness", f"{effectiveness_score*100:.0f}%", delta_color="normal")
     with colB:
         if effectiveness_score >= 0.75:
             st.success("Excellent! High effectiveness expected.")
         elif effectiveness_score >= 0.5:
-            st.warning("Moderate engagement expected. Consider improving creative.")
+        st.info("You're on the right track. With a few creative tweaks, this campaign can shine.")
         else:
             st.error("Low performance predicted. Rethink targeting or copy.")
 
