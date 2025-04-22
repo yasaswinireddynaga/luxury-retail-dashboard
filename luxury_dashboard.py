@@ -29,7 +29,7 @@ body {
     transition: all 0.3s ease-in-out;
 }
 [data-testid="stMetric"] div {
-    color: white;
+    color: black;
 }
 </style>
 """, unsafe_allow_html=True)
