@@ -107,7 +107,7 @@ with tabs[2]:
         if effectiveness_score >= 0.75:
             st.success("Excellent! High effectiveness expected.")
         elif effectiveness_score >= 0.5:
-        st.info("You're on the right track. With a few creative tweaks, this campaign can shine.")
+            st.info("You're on the right track. With a few creative tweaks, this campaign can shine.")
         else:
             st.error("Low performance predicted. Rethink targeting or copy.")
 
