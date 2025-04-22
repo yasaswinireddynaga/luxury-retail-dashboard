@@ -51,7 +51,7 @@ association_rules = pd.DataFrame({
 })
 
 # Sidebar
-st.sidebar.image("https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Fashion_icon.svg/1024px-Fashion_icon.svg.png", width=150)
+st.sidebar.image("https://cdn-icons-png.flaticon.com/512/3523/3523063.png", width=150)
 st.sidebar.title("🧰 Campaign Settings")
 channel = st.sidebar.selectbox("🎯 Choose Channel", ['Email', 'Social Media', 'SMS'])
 subject_length = st.sidebar.slider("📝 Subject Length (characters)", 10, 100, 50)
@@ -109,7 +109,10 @@ with tabs[2]:
     with col1:
         st.metric("Predicted Effectiveness", f"{effectiveness_score*100:.0f}%", level)
     with col2:
-        st.success(msg) if effectiveness_score >= 0.75 else st.warning(msg)
+        if effectiveness_score >= 0.75:
+        st.success(msg)
+    else:
+        st.warning(msg)
 
     st.markdown("---")
     st.markdown("🔁 *Lower scores for SMS and social campaigns suggest these channels need creative content or segmentation redesign. Future research should explore channel synergy without compromising brand exclusivity.*")
