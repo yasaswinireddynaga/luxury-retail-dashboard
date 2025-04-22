@@ -1,4 +1,3 @@
-
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -10,7 +9,7 @@ from PIL import Image
 st.set_page_config(
     page_title="Luxury Retail Dashboard",
     layout="wide",
-    page_icon="✨",
+    page_icon="👛",
     initial_sidebar_state="expanded"
 )
 
@@ -60,7 +59,7 @@ personalized = st.sidebar.checkbox("💡 Personalization Enabled")
 
 # Title section
 st.markdown("""
-# ✨ Luxury Retail AI Dashboard  
+# 👛 Luxury Retail AI Dashboard  
 *Machine Learning-Driven Insights for Campaign Optimization*
 """)
 
